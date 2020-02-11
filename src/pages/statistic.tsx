@@ -9,78 +9,55 @@ const Item = List.Item;
 const Brief = Item.Brief;
 
 function StatisticPage() {
+  const [list, setList] = useState([]);
+
   useEffect(() => {
-    db.getCashSurvey2019CommonList().then(res => {
-      setList([res.data, [], []]);
+    db.getCbpc2020NcovWorkStatic().then(res => {
+      setList(res.data);
     });
   }, []);
 
-  const [curLevel, setCurLevel] = useState(0);
+  const [curName, setCurName] = useState('');
 
-  const [curName, setCurName] = useState([null, null, null]);
-  const [list, setList] = useState([[], [], []]);
-
-  useEffect(() => {
-    let prevState = R.clone(list);
-    switch (curLevel) {
-      case 0:
-        break;
-      case 1:
-        prevState[curLevel] = [];
-        db.getCashSurvey2019CommonByProv(curName[curLevel]).then(res => {
-          prevState[curLevel] = res.data;
-          setList(prevState);
-        });
-        break;
-      case 2:
-        prevState[curLevel] = [];
-        db.getCashSurvey2019Common(curName[curLevel]).then(res => {
-          prevState[curLevel] = res.data;
-          setList(prevState);
-        });
-        break;
-    }
-  }, [curLevel]);
+  console.log(curName);
   return (
     <div>
-      <List
-        renderHeader={() =>
-          (curLevel == 0 ? '全国' : curLevel === 1 ? curName[1] : curName[1] + curName[2]) +
-          '参与情况汇总'
-        }
-        className="my-list"
-      >
-        {list[curLevel].map(({ name, value }) => (
+      <List renderHeader="各部门信息填写情况" className="my-list">
+        {list.map(({ name, value, usernum }) => (
           <Item
-            arrow={curLevel < 2 ? 'horizontal' : 'empty'}
+            arrow={usernum > 0 ? 'horizontal' : 'empty'}
             key={name}
             multipleLine
             onClick={() => {
-              if (curLevel == 2) {
-                return;
-              }
-              let prevName = R.clone(curName);
-              prevName[curLevel + 1] = name;
-              setCurName(prevName);
-              setCurLevel(curLevel => curLevel + 1);
+              setCurName(name);
             }}
           >
-            {name} <Brief>{value} 人</Brief>
+            {name}
+            <Brief>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <span>基础信息: {value} 人</span>
+                <span>今日健康上报: {usernum} 人</span>
+              </div>
+            </Brief>
           </Item>
         ))}
       </List>
-      {[1, 2].includes(curLevel) && (
-        <WingBlank>
-          <Button
-            style={{ marginTop: 20 }}
-            onClick={() => {
-              setCurLevel(curLevel => curLevel - 1);
-            }}
-          >
-            返回
-          </Button>
-        </WingBlank>
-      )}
+
+      <WingBlank>
+        <Button
+          style={{ marginTop: 20 }}
+          onClick={() => {
+            console.log('back');
+          }}
+        >
+          返回
+        </Button>
+      </WingBlank>
     </div>
   );
 }

@@ -119,33 +119,12 @@ export const delCbpc2020NcovWorkLog = params =>
 
 /**
  *   @database: { 微信开发 }
- *   @desc:     { 现金调查-各省参与情况 }
+ *   @desc:     { 填写情况 }
  */
-export const getCashSurvey2019CommonList = () =>
+export const getCbpc2020NcovWorkStatic = () =>
   axios({
-    url: '/196/334cc60eb8.json',
-  });
-
-/**
- *   @database: { 微信开发 }
- *   @desc:     { 现金调查-指定省份参与情况 }
- */
-export const getCashSurvey2019CommonByProv = info_2_0 =>
-  axios({
-    url: '/197/80d1c4601c.json',
+    url: '/264/d42a1d51b9.json',
     params: {
-      info_2_0,
-    },
-  });
-
-/**
- *   @database: { 微信开发 }
- *   @desc:     { 指定县级单位参与情况 }
- */
-export const getCashSurvey2019Common = info_2_1 =>
-  axios({
-    url: '/198/21b56a2cc7.json',
-    params: {
-      info_2_1,
+      company_id: getCompany(),
     },
   });
