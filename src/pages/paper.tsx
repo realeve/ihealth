@@ -77,14 +77,16 @@ function PaperPage({ basic, hasSubmitted, user: initLog, dispatch, ...rest }: an
     }
 
     if (
-      !/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(params.mobile)
+      !/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(
+        params.basicInfo[8],
+      )
     ) {
       Toast.fail('联系电话无效', 2);
       setLoading(false);
       return;
     }
 
-    if (!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test(params.id_card)) {
+    if (!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test(params.basicInfo[4])) {
       Toast.fail('身份证信息无效', 2);
       setLoading(false);
       return;

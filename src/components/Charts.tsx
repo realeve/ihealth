@@ -70,7 +70,7 @@ const getPie = (data, text) => ({
 });
 
 const getBar = (data, text) => {
-  console.log(data);
+  // console.log(data);
 
   let res = {};
   let show = {};
@@ -97,12 +97,12 @@ const getBar = (data, text) => {
       },
     },
     tooltip: {
-      trigger: 'item',
+      trigger: 'axis',
     },
     backgroundColor: 'rgba(0,0,0,0)',
     grid: {
       x: 20,
-      x2: 30,
+      x2: 15,
       y: 20,
       y2: 30,
     },
@@ -158,6 +158,7 @@ const getBar = (data, text) => {
             color: '#fbb',
             type: 'dashed',
           },
+          label: { show: false },
           data: [
             {
               yAxis: 37.3,
@@ -176,7 +177,7 @@ export default function RCharts({ data, renderer = 'svg', title, type, ...props 
   useEffect(() => {
     let method = type === 'pie' ? getPie : getBar;
     let chartOption = method(data, title);
-    console.log(chartOption.xAxis.data);
+    // console.log(chartOption.xAxis.data);
     setOption(chartOption);
     return function cleanup() {
       if (echarts_react && echarts_react.dispose) {

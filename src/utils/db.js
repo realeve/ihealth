@@ -10,7 +10,8 @@ let getCompany = () => {
 };
 
 const getCommonInfo = ({ userInfo, basicInfo }) => {
-  let keys = `deptname,username,sex,id_card,hometown,work_date,address,mobile,leave_wenjiang,leave_time,connect_hubei`;
+  // let keys = `deptname,username,sex,id_card,hometown,work_date,address,mobile,leave_wenjiang,leave_time,connect_hubei`;
+  let keys = `deptname,workname,username,sex,id_card,hometown,work_date,address,mobile,leave_wenjiang,leave_time,connect_hubei`;
   let info = { userid: userInfo.openid, rec_time: lib.now(), company_id: getCompany() };
   keys.split(',').map((key, idx) => {
     info[key] = basicInfo[idx];

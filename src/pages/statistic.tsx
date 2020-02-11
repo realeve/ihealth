@@ -19,7 +19,7 @@ function StatisticPage() {
 
   const [curName, setCurName] = useState('');
 
-  console.log(curName);
+  // console.log(curName);
   return (
     <div>
       <List renderHeader="各部门信息填写情况" className="my-list">

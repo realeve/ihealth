@@ -67,7 +67,7 @@ export default {
     },
     trigger: 'axis',
     axisPointer: {
-      type: 'cross',
+      type: 'line',
       lineStyle: {
         color: '#aaa',
       },
@@ -366,7 +366,11 @@ export default {
     axisLine: {
       show: true,
       lineStyle: {
-        color: [[0.2, 'rgb(148,205,97)'], [0.8, 'rgb(38,185,139)'], [1, 'rgb(255,107,104)']],
+        color: [
+          [0.2, 'rgb(148,205,97)'],
+          [0.8, 'rgb(38,185,139)'],
+          [1, 'rgb(255,107,104)'],
+        ],
         width: 8,
       },
     },
