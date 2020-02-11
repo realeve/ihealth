@@ -1,0 +1,48 @@
+.new {
+  padding: 15px;
+  margin: 0 20px;
+  border-radius: 3px;
+  font-size: 20px;
+  text-align: center;
+  background: #07C160;
+  color: #fff;
+
+  &:hover {
+    background: #06AD56;
+  }
+}
+
+.content {
+  margin: 0 0 20px 0;
+
+  :global {
+    .am-list {
+      margin-bottom: 10px;
+
+      &-content {
+        white-space: unset !important;
+        padding-right: 1em;
+      }
+
+      &-header {
+        font-size: 18px;
+        line-height: 25px;
+        padding-bottom: 4px;
+      }
+    }
+  }
+
+  .item {
+    animation: fadeIn 1s linear;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+
+    0% {
+      opacity: 1;
+    }
+  }
+}
