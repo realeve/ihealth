@@ -69,58 +69,106 @@ const getPie = (data, text) => ({
   ],
 });
 
-const getBar = data => ({
-  tooltip: {
-    trigger: 'item',
-  },
-  backgroundColor: 'rgba(0,0,0,0)',
-  grid: {
-    x: 20,
-    x2: 20,
-  },
-  yAxis: {
-    type: 'value',
-    // show: true,
-    show: false,
-    min: 35,
-    splitLine: {
+const getBar = (data, text) => {
+  console.log(data);
+
+  let res = {};
+  let show = {};
+  data.forEach((item, idx) => {
+    let name = item.name.slice(5, 10);
+    let key = item.name.slice(5, 16).replace(' ', '\n');
+    if (!res[name]) {
+      res[name] = true;
+      show[key] = true;
+    } else {
+      show[key] = false;
+    }
+  });
+
+  return {
+    title: {
+      // left: 'left',
+      text,
+      x: 10,
+      y: 5,
+      textStyle: {
+        color: '#eee',
+        fontSize: 16,
+      },
+    },
+    tooltip: {
+      trigger: 'item',
+    },
+    backgroundColor: 'rgba(0,0,0,0)',
+    grid: {
+      x: 20,
+      x2: 30,
+      y: 20,
+      y2: 30,
+    },
+    yAxis: {
+      type: 'value',
+      // show: true,
       show: false,
+      min: 35,
+      splitLine: {
+        show: false,
+      },
     },
-  },
-  xAxis: {
-    type: 'category',
-    data: data.map(item => item.name.slice(5, 16).replace(' ', '\n')),
-    axisLabel: {
-      color: '#eee',
-    },
-    boundaryGap: false,
-  },
-  color: ['#CFFFFE'],
-  series: [
-    {
-      type: 'line',
-      label: {
-        normal: {
-          show: true,
+    xAxis: {
+      type: 'category',
+      data: data.map(item => item.name.slice(5, 16).replace(' ', '\n')),
+      axisLabel: {
+        color: '#eee',
+        formatter(params) {
+          if (show[params]) {
+            return params.slice(0, 5);
+          }
         },
       },
-      areaStyle: {
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: 'rgba(216,216,216,0.10)',
-          },
-          {
-            offset: 1,
-            color: '#6E6CD8',
-          },
-        ]),
-      },
-      data: data.map(item => item.value),
-      smooth: true,
+      boundaryGap: false,
     },
-  ],
-});
+    color: ['#CFFFFE'],
+    series: [
+      {
+        type: 'line',
+        label: {
+          normal: {
+            show: true,
+          },
+        },
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: 'rgba(216,216,216,0.10)',
+            },
+            {
+              offset: 1,
+              color: '#6E6CD8',
+            },
+          ]),
+        },
+        data: data.map(item => item.value),
+        smooth: true,
+        markLine: {
+          silent: true,
+          symbol: 'none',
+          lineStyle: {
+            color: '#fbb',
+            type: 'dashed',
+          },
+          data: [
+            {
+              yAxis: 37.3,
+              name: '37.3℃',
+            },
+          ],
+        },
+      },
+    ],
+  };
+};
 
 export default function RCharts({ data, renderer = 'svg', title, type, ...props }) {
   let echarts_react = useRef();
@@ -128,7 +176,7 @@ export default function RCharts({ data, renderer = 'svg', title, type, ...props 
   useEffect(() => {
     let method = type === 'pie' ? getPie : getBar;
     let chartOption = method(data, title);
-    console.log(chartOption);
+    console.log(chartOption.xAxis.data);
     setOption(chartOption);
     return function cleanup() {
       if (echarts_react && echarts_react.dispose) {

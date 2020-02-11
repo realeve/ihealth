@@ -42,9 +42,10 @@ function LogPage({
           }))
           .sort((a, b) => a.id - b.id)}
         type="line"
-        title=""
+        title="个人近期体温记录"
         style={{
           width: '100%',
+          height: 250,
           borderRadius: 5,
           margin: '0px 0 30px 0',
           backgroundImage:
@@ -57,7 +58,7 @@ function LogPage({
           router.push('/new');
         }}
       >
-        <Icon size="xs" type="plus" color="#fff" /> 新增个人身体状况
+        <Icon size="xxs" type="plus" color="#fff" /> 新增个人身体状况
       </div>
       {logs.map(item => (
         <List className={styles.item} key={item.id} renderHeader={() => item.date_name}>
