@@ -69,7 +69,7 @@ export default function FormComponent({ data, onChange, state, showErr }: IProps
                   (props.cascade && state[key - 1] == '1') || typeof val === 'undefined'
                     ? '无'
                     : val;
-                nextState[key] = res.trim();
+                nextState[key] = res; //.trim();
                 onChange(nextState);
               }}
               rows={props.rows || 3}

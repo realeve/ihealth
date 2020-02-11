@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Button, WhiteSpace, WingBlank, Toast } from 'antd-mobile';
+import { Button, WingBlank, Toast } from 'antd-mobile';
 import styles from './paper.less';
-import { paperData, expensesData, IPaper } from '@/utils/paperData';
+import { paperData, IPaper } from '@/utils/paperData';
 import * as db from '@/utils/db.js';
 import * as user from '@/utils/user';
 import * as lib from '@/utils/lib';
@@ -25,12 +25,10 @@ export interface ILog {
   start_time: string;
 }
 
-function PaperPage({ basic, income, hasSubmitted, user: initLog, dispatch, ...rest }: any) {
+function PaperPage({ basic, hasSubmitted, user: initLog, dispatch, ...rest }: any) {
   const [state, setState]: [TAnswerList, any] = useState(basic);
-  const [state2, setState2]: [TAnswerList, any] = useState(income);
 
   const [basicInited, setBasicInited] = useState(false);
-  const [incomeInited, setIncomeInited] = useState(false);
 
   useEffect(() => {
     if (basicInited || basic.lendth === 0) {
@@ -41,24 +39,10 @@ function PaperPage({ basic, income, hasSubmitted, user: initLog, dispatch, ...re
   }, [basic]);
 
   useEffect(() => {
-    if (incomeInited || income.lendth === 0) {
-      return;
-    }
-    setIncomeInited(true);
-    setState2(income);
-  }, [income]);
-
-  useEffect(() => {
     // 存储答卷
     user.savePaper(state, 'basic');
     dispatch({ type: 'common/setStore', payload: { basic: state } });
   }, [state]);
-
-  useEffect(() => {
-    // 存储答卷
-    user.savePaper(state2, 'income');
-    dispatch({ type: 'common/setStore', payload: { income: state2 } });
-  }, [state2]);
 
   const [loading, setLoading] = useState(false);
   const [showErr, setShowErr] = useState(basic.length === 0 ? {} : { msg: '' });
@@ -72,37 +56,20 @@ function PaperPage({ basic, income, hasSubmitted, user: initLog, dispatch, ...re
 
     let basicInfo: TAnswerList = R.clone(state);
 
-    // console.log(basicInfo[2]);
-
-    if (!basicInfo[2]) {
-      Toast.fail('问卷填写不完整', 2);
+    if (!basicInfo[5]) {
+      Toast.fail('基础信息填写不完整', 2);
       setLoading(false);
       return;
     }
-    basicInfo[2] = lib.handleProvName(basicInfo[2]);
+    basicInfo[5] = lib.handleProvName(basicInfo[5]);
 
     let params = {
       basicInfo,
-      income: R.clone(state2),
       userInfo: initLog,
     };
-    if (!params.income[1]) {
-      params.income[1] = new Array(11).fill(0);
-    }
-    if (!params.income[3]) {
-      params.income[3] = new Array(11).fill(0);
-    }
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < paperData.length; i++) {
       if (!params.basicInfo[i] || params.basicInfo[i].length === 0) {
-        Toast.fail('问卷填写不完整', 2);
-        setLoading(false);
-        return;
-      }
-    }
-
-    for (let i = 0; i < 3; i++) {
-      if (!params.income[i] || params.income[i].length === 0) {
         Toast.fail('问卷填写不完整', 2);
         setLoading(false);
         return;
@@ -126,7 +93,7 @@ function PaperPage({ basic, income, hasSubmitted, user: initLog, dispatch, ...re
           // Toast.fail('已经提交数据', 3);
           dispatch({
             type: 'common/setStore',
-            payload: { result: { title: '数据已提交，请勿重复提交', status: 'error' } },
+            payload: { result: { title: '数据已提交，请勿重复填写', status: 'error' } },
           });
           user.gotoSuccess();
           setLoading(false);
@@ -155,6 +122,5 @@ function PaperPage({ basic, income, hasSubmitted, user: initLog, dispatch, ...re
 }
 
 export default connect(({ common }: any) => {
-  // console.log(common)
   return { ...common };
 })(PaperPage);

@@ -1,6 +1,13 @@
 import { axios, DEV, _commonData, mock } from './axios';
 import * as user from './user';
 import * as lib from './lib';
+import qs from 'qs';
+
+let getCompany = () => {
+  let str = window.location.search.slice(1);
+  let res = qs.parse(str);
+  return res.company_id || '1';
+};
 
 const handleArray = (arr, name) => {
   let result = {};
@@ -16,14 +23,13 @@ const handleArray = (arr, name) => {
   });
   return result;
 };
-const getCommonInfo = ({ userInfo, basicInfo, income }) => {
-  let bInfo = handleArray(basicInfo, 'info');
-  let iInfo = handleArray(income, 'income');
-  let info = { userid: userInfo.openid };
-  Object.keys(bInfo).forEach(el => (info[el] = bInfo[el]));
-  Object.keys(iInfo).forEach(el => (info[el] = iInfo[el]));
-  // console.log("info", info);
-  info.rec_time = lib.now();
+
+const getCommonInfo = ({ userInfo, basicInfo }) => {
+  let keys = `deptname,username,sex,id_card,hometown,work_date,address,mobile,leave_wenjiang,leave_time,connect_hubei`;
+  let info = { userid: userInfo.openid, rec_time: lib.now(), company_id: getCompany() };
+  keys.split(',').map((key, idx) => {
+    info[key] = basicInfo[idx];
+  });
   return info;
 };
 
@@ -33,6 +39,7 @@ const getPayInfo = ({ userInfo, pay }) => {
   Object.keys(pInfo).forEach(el => (info[el] = pInfo[el]));
   return info;
 };
+
 /** 数据量较大时建议使用post模式：
 *
 *   @database: { 微信开发 }
@@ -49,8 +56,8 @@ export const addBasicInfo = params => {
         method: 'post',
         data: {
           values,
-          id: 199,
-          nonce: 'c6562e7460',
+          id: 259,
+          nonce: 'dcc336d556',
         },
       }).then(({ data: [{ affected_rows }] }) => {
         user.setPaperStatus();
