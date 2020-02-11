@@ -9,21 +9,6 @@ let getCompany = () => {
   return res.company_id || '1';
 };
 
-const handleArray = (arr, name) => {
-  let result = {};
-  arr.forEach((element, i) => {
-    let el = element.includes(' ') ? element.split(' ') : element;
-    if (el instanceof Array) {
-      el.forEach((sub, j) => {
-        result[`${name}_${i}_${j}`] = sub;
-      });
-    } else {
-      result[`${name}_${i}`] = el;
-    }
-  });
-  return result;
-};
-
 const getCommonInfo = ({ userInfo, basicInfo }) => {
   let keys = `deptname,username,sex,id_card,hometown,work_date,address,mobile,leave_wenjiang,leave_time,connect_hubei`;
   let info = { userid: userInfo.openid, rec_time: lib.now(), company_id: getCompany() };
@@ -34,9 +19,12 @@ const getCommonInfo = ({ userInfo, basicInfo }) => {
 };
 
 const getPayInfo = ({ userInfo, pay }) => {
-  let pInfo = handleArray(pay, 'q');
-  let info = { userid: userInfo.openid };
-  Object.keys(pInfo).forEach(el => (info[el] = pInfo[el]));
+  let keys = `rec_date,temprature,health_info,remark`;
+  let info = { userid: userInfo.openid, rec_time: lib.now() };
+  keys.split(',').map((key, idx) => {
+    info[key] = pay[idx];
+  });
+  info.remark = info.remark || '';
   return info;
 };
 
@@ -45,8 +33,7 @@ const getPayInfo = ({ userInfo, pay }) => {
 *   @database: { 微信开发 }
 *   @desc:     { 批量现金调查2019--基础信息录入 } 
 	以下参数在建立过程中与系统保留字段冲突，已自动替换:
-	@desc:批量插入数据时，约定使用二维数组values参数，格式为[{userid,info_0,info_1,info_2_0,info_2_1,info_2_2,info_3,info_4,income_0,income_1_0,income_1_1,income_1_2,income_1_3,income_1_4,income_1_5,income_1_6,income_1_7,income_1_8,income_1_9,income_1_10,income_2_0,income_2_1,income_2_2,income_2_3,income_2_4,income_3_0,income_3_1,income_3_2,income_3_3,income_3_4,income_3_5,income_3_6,income_3_7,income_3_8,income_3_9,income_3_10 }]，数组的每一项表示一条数据
-*/
+  */
 export const addBasicInfo = params => {
   let values = [getCommonInfo(params)];
 
@@ -74,8 +61,6 @@ export const addBasicInfo = params => {
  */
 export const addPayInfo = params => {
   let values = [getPayInfo(params)];
-  // console.log('commit', values);
-  // return;
 
   return DEV
     ? mock(_commonData)
@@ -83,8 +68,8 @@ export const addPayInfo = params => {
         method: 'post',
         data: {
           values,
-          id: 192,
-          nonce: '2a4c08d0f3',
+          id: 260,
+          nonce: '11432374fa',
         },
       })
         .then(({ data: [{ id }] }) => {
@@ -98,44 +83,27 @@ export const addPayInfo = params => {
 
 /**
  *   @database: { 微信开发 }
- *   @desc:     { 现金调查2019--基础信息查询 }
+ *   @desc:     { 基础信息查询 }
  */
-export const getBasicInfo = userid =>
-  DEV
-    ? mock(_commonData)
-    : axios({
-        url: '/193/4bf0c20aa3.json',
-        params: {
-          userid,
-        },
-      });
-
-/**
- *   @database: { 微信开发 }
- *   @desc:     { 现金调查2019--近期支付数据查询 }
- */
-export const getPostPayInfo = userid =>
-  DEV
-    ? mock(_commonData)
-    : axios({
-        url: '/194/55dad15c3f.json',
-        params: {
-          userid,
-        },
-      });
-
-/**
- *   @database: { 微信开发 }
- *   @desc:     { 现金调查2019--近期支付数据查询 }
- */
-export const getCashSurvey2019Pay = userid =>
+export const getCbpc2020NcovWork = userid =>
   axios({
-    url: '/194/55dad15c3f.json',
+    url: '/261/962f201823.json',
     params: {
       userid,
     },
   });
 
+/**
+ *   @database: { 微信开发 }
+ *   @desc:     { 现金调查2019--近期支付数据查询 }
+ */
+export const getCbpc2020NcovWorkLog = userid =>
+  axios({
+    url: '/262/9124ab0316.json',
+    params: {
+      userid,
+    },
+  });
 /**
 *   @database: { 微信开发 }
 *   @desc:     { 删除日志 } 
@@ -143,13 +111,11 @@ export const getCashSurvey2019Pay = userid =>
 	@id:_id. 参数说明：api 索引序号
     const { userid, _id } = params;
 */
-export const delCashSurvey2019Pay = params =>
-  DEV
-    ? mock(_commonData)
-    : axios({
-        url: '/195/90e875ff52.json',
-        params,
-      });
+export const delCbpc2020NcovWorkLog = params =>
+  axios({
+    url: '/263/280b74777e.json',
+    params,
+  });
 
 /**
  *   @database: { 微信开发 }

@@ -15,7 +15,7 @@ let paper: IPaper[] = [
   {
     type: 'DatePicker',
     mode: 'datetime',
-    title: '记录日期',
+    title: '记录时间',
     data: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   },
   {

@@ -80,7 +80,7 @@ let paper: IPaper[] = [
     rows: 2,
   },
   {
-    title: '联系电话',
+    title: '手机号',
     type: 'textarea',
     rows: 1,
   },

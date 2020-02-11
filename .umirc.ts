@@ -23,7 +23,7 @@ const config: IConfig = {
       {
         dva: true,
         dynamicImport: { webpackChunkName: true },
-        title: '支付日记调查问卷',
+        title: '全员健康台账',
         dll: false,
         routes: {
           exclude: [

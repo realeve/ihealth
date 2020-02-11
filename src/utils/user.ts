@@ -12,7 +12,6 @@ let key: {
 } = {
   user: prefix + 'user',
   basic: prefix + 'basic',
-  income: prefix + 'income',
   pay: prefix + 'pay',
   status: prefix + 'status',
   hasSubmitted: prefix + 'hasSubmitted',

@@ -2,7 +2,6 @@ import { setStore, transformProvName } from '@/utils/lib';
 import * as lib from '@/utils/user';
 import * as db from '@/utils/db';
 import weixin from '@/utils/WeiXin';
-import paper from '@/utils/payLog';
 
 const namespace = 'common';
 export default {
@@ -10,7 +9,6 @@ export default {
   state: {
     user: {},
     basic: [],
-    income: [],
     pay: [],
     hasSubmitted: 0,
     result: {
@@ -56,95 +54,50 @@ export default {
       if (!user.openid || basicData.length > 0) {
         return;
       }
-      let { data } = yield call(db.getBasicInfo, user.openid);
+      let { data } = yield call(db.getCbpc2020NcovWork, user.openid);
       if (data.length === 0) {
         return;
       }
       let {
-        info_0,
-        info_1,
-        info_2_0,
-        info_2_1,
-        info_2_2,
-        info_3,
-        info_4,
-        income_0,
-        income_1_0,
-        income_1_1,
-        income_1_2,
-        income_1_3,
-        income_1_4,
-        income_1_5,
-        income_1_6,
-        income_1_7,
-        income_1_8,
-        income_1_9,
-        income_1_10,
-        income_2_0,
-        income_2_1,
-        income_2_2,
-        income_2_3,
-        income_2_4,
-        income_3_0,
-        income_3_1,
-        income_3_2,
-        income_3_3,
-        income_3_4,
-        income_3_5,
-        income_3_6,
-        income_3_7,
-        income_3_8,
-        income_3_9,
-        income_3_10,
+        deptname,
+        company_id,
+        username,
+        sex,
+        id_card,
+        hometown,
+        work_date,
+        address,
+        mobile,
+        leave_wenjiang,
+        leave_time,
+        connect_hubei,
       } = data[0];
 
-      console.log(transformProvName([info_2_0, info_2_1, info_2_2]));
+      console.log(transformProvName(hometown.split(' ')));
+
       let basic = [
-        info_0,
-        info_1,
-        transformProvName([info_2_0, info_2_1, info_2_2]),
-        info_3,
-        info_4,
+        deptname,
+        company_id,
+        username,
+        sex,
+        id_card,
+        transformProvName(hometown.split(' ')),
+        work_date,
+        address,
+        mobile,
+        leave_wenjiang,
+        leave_time,
+        connect_hubei,
       ];
-      let income = [
-        income_0,
-        [
-          income_1_0,
-          income_1_1,
-          income_1_2,
-          income_1_3,
-          income_1_4,
-          income_1_5,
-          income_1_6,
-          income_1_7,
-          income_1_8,
-          income_1_9,
-          income_1_10,
-        ],
-        [income_2_0, income_2_1, income_2_2, income_2_3, income_2_4],
-        [
-          income_3_0,
-          income_3_1,
-          income_3_2,
-          income_3_3,
-          income_3_4,
-          income_3_5,
-          income_3_6,
-          income_3_7,
-          income_3_8,
-          income_3_9,
-          income_3_10,
-        ],
-      ];
+
       yield put({
         type: 'setStore',
         payload: {
           basic,
-          income,
           hasSubmitted: true,
         },
       });
-      console.log('loading from db', basic, income);
+      console.log('loading from db', basic);
     },
     *getPayLog(_, { put, call, select }) {
       let user = yield select(state => state.common.user);
@@ -152,21 +105,12 @@ export default {
         return;
       }
 
-      let res = yield call(db.getCashSurvey2019Pay, user.openid);
-      let nextLog = res.data.map(item => ({
-        id: item.id,
-        sence: paper[1].data[item.q_1],
-        total: '￥' + item.q_2,
-        pay_way: paper[3].data[item.q_3],
-        date_name: item.q_0,
-        note: item.q_5,
-      }));
-      // nextLog = R.sortWith([R.ascend(R.prop('id'))])(nextLog);
+      let res = yield call(db.getCbpc2020NcovWorkLog, user.openid);
 
       yield put({
         type: 'setStore',
         payload: {
-          logs: nextLog,
+          logs: res.data,
         },
       });
     },
@@ -184,29 +128,16 @@ export default {
           dispatch({
             type: 'getPayLog',
           });
-
-          // let pay = lib.loadPaper('pay');
-          // if (pay.length) {
-          //   dispatch({
-          //     type: 'setStore',
-          //     payload: { pay },
-          //   });
-          // } else {
-          //   dispatch({
-          //     type: 'getPayLog',
-          //   });
-          // }
         }
 
         if (['/paper'].includes(pathname)) {
           // 载入历史数据
           let basic = lib.loadPaper('basic');
-          let income = lib.loadPaper('income');
           let hasSubmitted = lib.getBasicStatus();
           if (basic.length) {
             dispatch({
               type: 'setStore',
-              payload: { basic, income, hasSubmitted },
+              payload: { basic, hasSubmitted },
             });
             console.log('loading from cache');
           } else {

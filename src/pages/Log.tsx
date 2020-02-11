@@ -39,10 +39,10 @@ function LogPage({
       </div>
       {logs.map(item => (
         <List className={styles.item} key={item.id} renderHeader={() => item.date_name}>
-          <Item extra={item.sence}>支付场景</Item>
-          <Item extra={item.pay_way}>支付方式</Item>
-          <Item extra={item.total}>支付金额</Item>
-          <Item extra={item.note}>备注</Item>
+          <Item extra={item.temprature}>体温</Item>
+          <Item extra={item.rec_date.replace('2020-', '')}>测量时间</Item>
+          <Item extra={['是', '否'][item.health_info]}>身体状况正常</Item>
+          {item.remark.length > 0 && <Item extra={item.remark}>备注</Item>}
           <Item
             extra={
               <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
@@ -62,7 +62,7 @@ function LogPage({
                               logs: [],
                             },
                           });
-                          db.delCashSurvey2019Pay({
+                          db.delCbpc2020NcovWorkLog({
                             userid: openid,
                             _id: item.id,
                           })
