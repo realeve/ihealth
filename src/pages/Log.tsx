@@ -5,6 +5,8 @@ import styles from './log.less';
 import router from 'umi/router';
 import * as db from '@/utils/db.js';
 
+import Chart from '@/components/Charts';
+
 const Item = List.Item;
 const alert = Modal.alert;
 
@@ -29,6 +31,26 @@ function LogPage({
 }) {
   return (
     <div className={styles.content}>
+      <Chart
+        data={logs
+          .slice(0, 10)
+          .map(item => ({
+            id: item.id,
+            name: item.rec_date,
+            value: item.temprature,
+            remark: item.remark,
+          }))
+          .sort((a, b) => a.id - b.id)}
+        type="line"
+        title=""
+        style={{
+          width: '100%',
+          borderRadius: 5,
+          margin: '0px 0 30px 0',
+          backgroundImage:
+            'linear-gradient(-135deg, #874BFF 0%, #6854EE 43%, #6052F2 63%, #534FFA 100%)',
+        }}
+      />
       <div
         className={styles.new}
         onClick={() => {

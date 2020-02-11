@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import ReactEcharts from './ECharts';
 import * as R from 'ramda';
+import echarts from 'echarts';
 let color = [
   '#61A5E8',
   '#7ECF51',
@@ -68,42 +69,55 @@ const getPie = (data, text) => ({
   ],
 });
 
-const getBar = (data, text) => ({
-  // title: {
-  //   left: 'center',
-  //   text: R.splitEvery(20, text).join('\r\n'),
-  //   y: 10,
-  // },
-  toolbox: { feature: { saveAsImage: { type: 'svg' } } },
+const getBar = data => ({
   tooltip: {
     trigger: 'item',
   },
+  backgroundColor: 'rgba(0,0,0,0)',
   grid: {
-    x: 350,
-    x2: 100,
-  },
-  xAxis: {
-    type: 'value',
-    show: false,
-    min: 0,
-    // max: 100,
+    x: 20,
+    x2: 20,
   },
   yAxis: {
-    type: 'category',
-    data: data.map(item => R.splitEvery(25, item.name).join('\r\n')).reverse(),
+    type: 'value',
+    // show: true,
+    show: false,
+    min: 35,
+    splitLine: {
+      show: false,
+    },
   },
+  xAxis: {
+    type: 'category',
+    data: data.map(item => item.name.slice(5, 16).replace(' ', '\n')),
+    axisLabel: {
+      color: '#eee',
+    },
+    boundaryGap: false,
+  },
+  color: ['#CFFFFE'],
   series: [
     {
-      type: 'bar',
+      type: 'line',
       label: {
         normal: {
           show: true,
-          position: 'right',
-          formatter: a => `${a.value}%(${data[a.dataIndex].value}人)`,
         },
       },
-      data: data.reverse(),
-      barMaxWidth: 20,
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: 'rgba(216,216,216,0.10)',
+          },
+          {
+            offset: 1,
+            color: '#6E6CD8',
+          },
+        ]),
+      },
+      data: data.map(item => item.value),
+      smooth: true,
     },
   ],
 });
@@ -114,6 +128,7 @@ export default function RCharts({ data, renderer = 'svg', title, type, ...props 
   useEffect(() => {
     let method = type === 'pie' ? getPie : getBar;
     let chartOption = method(data, title);
+    console.log(chartOption);
     setOption(chartOption);
     return function cleanup() {
       if (echarts_react && echarts_react.dispose) {
