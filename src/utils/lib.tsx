@@ -263,6 +263,9 @@ export const transformProvName: (e: string[]) => string[] = res => {
       return item[0];
     }
   })(Object.entries(districtDetail.districts));
+  console.log(provId);
+  console.log(cityId);
+  console.log(districtId);
 
-  return [provId, cityId, districtId[0]];
+  return [provId, cityId, districtId && districtId[0]];
 };

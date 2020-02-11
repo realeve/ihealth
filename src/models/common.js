@@ -58,9 +58,10 @@ export default {
       if (data.length === 0) {
         return;
       }
+
       let {
         deptname,
-        company_id,
+        workname,
         username,
         sex,
         id_card,
@@ -72,12 +73,13 @@ export default {
         leave_time,
         connect_hubei,
       } = data[0];
+      console.log(hometown.split(' '));
 
-      console.log(transformProvName(hometown.split(' ')));
+      console.log(data[0], transformProvName(hometown.split(' ')));
 
       let basic = [
         deptname,
-        company_id,
+        workname,
         username,
         sex,
         id_card,
@@ -90,6 +92,8 @@ export default {
         connect_hubei,
       ];
 
+      console.log('loading from db', basic);
+
       yield put({
         type: 'setStore',
         payload: {
@@ -97,7 +101,6 @@ export default {
           hasSubmitted: true,
         },
       });
-      console.log('loading from db', basic);
     },
     *getPayLog(_, { put, call, select }) {
       let user = yield select(state => state.common.user);

@@ -105,7 +105,9 @@ export default function FormComponent({ data, onChange, state, showErr }: IProps
             onChange={(e: Date) => {
               console.log(e);
               let nextState: (string | string[])[] = R.clone(state);
-              nextState[key] = dayjs(e).format('YYYY-MM-DD HH:mm:ss');
+              nextState[key] = dayjs(e).format(
+                props.mode === 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm',
+              );
               onChange(nextState);
             }}
             // onValueChange={(vals: any, index: number) => {
