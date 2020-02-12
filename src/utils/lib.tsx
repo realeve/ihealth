@@ -237,23 +237,21 @@ export const transformProvName: (e: string[]) => string[] = res => {
 
   let [prov, city, districtName] = res;
   let locales = Object.keys(chinaloc);
-  let provId = '';
   let provDetail = {};
+
   for (let i = 0; i < locales.length; i++) {
     provDetail = chinaloc[locales[i]];
     if (provDetail.name === prov) {
-      provId = provDetail.code;
       break;
     }
   }
 
   let cities = Object.keys(provDetail.cities);
-  let cityId = '';
+
   let districtDetail = {};
   for (let i = 0; i < cities.length; i++) {
     districtDetail = provDetail.cities[cities[i]];
-    if (provDetail.name === city) {
-      cityId = provDetail.code;
+    if (districtDetail.name === city) {
       break;
     }
   }
@@ -263,9 +261,9 @@ export const transformProvName: (e: string[]) => string[] = res => {
       return item[0];
     }
   })(Object.entries(districtDetail.districts));
-  console.log(provId);
-  console.log(cityId);
-  console.log(districtId);
 
-  return [provId, cityId, districtId && districtId[0]];
+  let dist = districtId && districtId[0];
+
+  // console.log([dist.slice(0, 2) + '0000', dist.slice(0, 4) + '00', dist]);
+  return [dist.slice(0, 2) + '0000', dist.slice(0, 4) + '00', dist];
 };

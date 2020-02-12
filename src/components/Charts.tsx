@@ -84,6 +84,7 @@ const getBar = (data, text) => {
       show[key] = false;
     }
   });
+  // console.log(JSON.stringify(data), text);
 
   return {
     title: {
@@ -122,7 +123,10 @@ const getBar = (data, text) => {
         color: '#eee',
         formatter(params) {
           if (show[params]) {
+            // console.log(params.slice(0, 5));
             return params.slice(0, 5);
+          } else {
+            return ''; //params.slice(5, 11);
           }
         },
       },
@@ -151,6 +155,8 @@ const getBar = (data, text) => {
         },
         data: data.map(item => item.value),
         smooth: true,
+        // symbol: 'circle',
+        symbolSize: 5,
         markLine: {
           silent: true,
           symbol: 'none',

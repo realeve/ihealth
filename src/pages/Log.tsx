@@ -33,7 +33,7 @@ function LogPage({
     <div className={styles.content}>
       <Chart
         data={logs
-          .slice(0, 10)
+          .slice(0, 8)
           .map(item => ({
             id: item.id,
             name: item.rec_date,

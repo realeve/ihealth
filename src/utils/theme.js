@@ -59,12 +59,11 @@ export default {
     left: 'right',
   },
   tooltip: {
-    backgroundColor: 'rgba(255,255,255,0.95)',
-    extraCssText:
-      'padding:20px;color:#999;border-radius:5px;box-shadow: 0 0 7px rgba(0, 0, 0, 0.6);',
-    textStyle: {
-      color: '#333',
-    },
+    // backgroundColor: 'rgba(255,255,255,0.95)',
+    // extraCssText:'padding:20px;color:#999;border-radius:5px;box-shadow: 0 0 7px rgba(0, 0, 0, 0.6);',
+    // textStyle: {
+    //   color: '#333',
+    // },
     trigger: 'axis',
     axisPointer: {
       type: 'line',

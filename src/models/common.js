@@ -73,9 +73,9 @@ export default {
         leave_time,
         connect_hubei,
       } = data[0];
-      console.log(hometown.split(' '));
+      // console.log(hometown.split(' '));
 
-      console.log(data[0], transformProvName(hometown.split(' ')));
+      // console.log(data[0], transformProvName(hometown.split(' ')));
 
       let basic = [
         deptname,
