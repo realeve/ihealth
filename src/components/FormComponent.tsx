@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextareaItem, List, DatePicker } from 'antd-mobile';
 import RadioComponent from '@/components/RadioComponent';
 import CheckboxComponent from '@/components/CheckboxComponent';
@@ -10,6 +10,9 @@ import * as R from 'ramda';
 import { IPaper } from '@/utils/paperData';
 import dayjs from 'dayjs';
 
+import { Calendar } from 'antd-mobile';
+import zhCN from 'antd-mobile/lib/calendar/locale/zh_CN';
+
 export interface IPropsForm {
   data: any;
   onChange: any;
@@ -17,7 +20,12 @@ export interface IPropsForm {
   showErr: any;
   [key: string]: any;
 }
+
+const now = new Date();
+
 export default function FormComponent({ data, onChange, state, showErr }: IPropsForm) {
+  const [show, setShow] = useState(false);
+  console.log('show:', show);
   return data.map(({ title, data, type = 'radio', subTitle, ...props }: IPaper, key: number) => {
     let idxTitle = `${key + 1}.${title}`;
 
@@ -93,11 +101,64 @@ export default function FormComponent({ data, onChange, state, showErr }: IProps
         return (
           <MoneyGroup title={idxTitle} value={state} idx={key} key={key} onChange={onChange} />
         );
+      case 'calendar':
+        const isDateTime = props.mode === 'datetime';
+
+        return (
+          <List renderHeader={prop.title} key={key}>
+            <List.Item
+              arrow="horizontal"
+              onClick={() => {
+                setShow(true);
+              }}
+            >
+              {state[key]}
+            </List.Item>
+            <Calendar
+              locale={zhCN}
+              visible={show}
+              type="one"
+              pickTime={isDateTime}
+              onCancel={() => {
+                setShow(false);
+              }}
+              onConfirm={startTime => {
+                let nextState: (string | string[])[] = R.clone(state);
+                nextState[key] = dayjs(startTime).format(
+                  isDateTime ? 'YYYY-MM-DD HH:mm' : 'YYYY-MM-DD',
+                );
+                onChange(nextState);
+                setShow(false);
+              }}
+              defaultDate={new Date(state[key])}
+              minDate={
+                new Date(
+                  dayjs()
+                    .add(1 - dayjs().format('DD'), 'day')
+                    .format('YYYY-MM-DD'),
+                )
+              }
+              maxDate={
+                new Date(
+                  dayjs()
+                    .add(2, 'month')
+                    .format('YYYY-MM-DD'),
+                )
+              }
+            />
+          </List>
+        );
       case 'DatePicker':
         return (
           <DatePicker
             minDate={new Date('2020-02-01')}
-            maxDate={new Date()}
+            maxDate={
+              new Date(
+                dayjs()
+                  .add(30, 'day')
+                  .format('YYYY-MM-DD'),
+              )
+            }
             mode={props.mode || 'date'}
             title={idxTitle}
             value={new Date(state[key])}

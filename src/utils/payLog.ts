@@ -13,7 +13,7 @@ export interface IPaper {
 
 let paper: IPaper[] = [
   {
-    type: 'DatePicker',
+    type: 'calendar', // 'DatePicker',
     mode: 'datetime',
     title: '记录时间',
     data: dayjs().format('YYYY-MM-DD HH:mm:ss'),

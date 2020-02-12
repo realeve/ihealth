@@ -120,10 +120,9 @@ function PaperPage({ basic, hasSubmitted, user: initLog, dispatch, ...rest }: an
   return (
     <div>
       <div className={styles.content}>
-        <div style={{ paddingLeft: 20 }}>
-          {/* 第一部分 基本情况 */}
+        {/* <div style={{ paddingLeft: 20 }}> 
           {hasSubmitted > 0 && <span>(您已填写)</span>}
-        </div>
+        </div> */}
 
         <FormComponent data={paperData} onChange={setState} state={state} showErr={showErr} />
       </div>
