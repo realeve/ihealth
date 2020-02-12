@@ -46,7 +46,7 @@ function LogPage({
         style={{
           width: '100%',
           height: 250,
-          borderRadius: 5,
+          borderRadius: '0 0 5px 5px',
           margin: '0px 0 30px 0',
           backgroundImage:
             'linear-gradient(-135deg, #874BFF 0%, #6854EE 43%, #6052F2 63%, #534FFA 100%)',

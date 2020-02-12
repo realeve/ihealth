@@ -127,13 +127,32 @@ export default {
           await weixin.init();
         }
 
-        if (['/log'].includes(pathname)) {
+        // if (['/log'].includes(pathname)) {
+        //   dispatch({
+        //     type: 'getPayLog',
+        //   });
+        // }
+
+        // if (['/paper'].includes(pathname)) {
+        //   // 载入历史数据
+        //   let basic = lib.loadPaper('basic');
+        //   let hasSubmitted = lib.getBasicStatus();
+        //   if (basic.length) {
+        //     dispatch({
+        //       type: 'setStore',
+        //       payload: { basic, hasSubmitted },
+        //     });
+        //     console.log('loading from cache');
+        //   } else {
+        //     dispatch({ type: 'getBasicInfo' });
+        //   }
+        // }
+
+        if (['/paper'].includes(pathname) || ['/log'].includes(pathname)) {
           dispatch({
             type: 'getPayLog',
           });
-        }
 
-        if (['/paper'].includes(pathname)) {
           // 载入历史数据
           let basic = lib.loadPaper('basic');
           let hasSubmitted = lib.getBasicStatus();
