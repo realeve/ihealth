@@ -96,7 +96,7 @@ export const handleMultipleChange = (
   return state;
 };
 
-export const now = () => dayjs().format('YYYY-MM-DD HH:mm:ss');
+export const now = () => dayjs().format('YYYY/MM/DD HH:mm:ss');
 export const ymd = () => dayjs().format('YYYYMMDD');
 
 export const getParams = (state: TAnswerList, user: ILog, paper: IPaper[]) => {

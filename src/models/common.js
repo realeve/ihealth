@@ -2,6 +2,7 @@ import { setStore, transformProvName } from '@/utils/lib';
 import * as lib from '@/utils/user';
 import * as db from '@/utils/db';
 import weixin from '@/utils/WeiXin';
+import dayjs from 'dayjs';
 
 const namespace = 'common';
 export default {
@@ -35,7 +36,11 @@ export default {
         return;
       }
 
-      user = yield call(weixin.getWxUserInfo);
+      // user = yield call(weixin.getWxUserInfo);
+
+      user = {
+        openid: lib.getUid().user,
+      };
       console.log('用户信息载入完毕', user);
       if (!user) {
         return;
@@ -56,6 +61,14 @@ export default {
       }
       let { data } = yield call(db.getCbpc2020NcovWork, user.openid);
       if (data.length === 0) {
+        let res = [];
+        res[6] = dayjs().format('YYYY/MM/DD');
+        yield put({
+          type: 'setStore',
+          payload: {
+            basic: res,
+          },
+        });
         return;
       }
 

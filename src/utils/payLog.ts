@@ -13,10 +13,10 @@ export interface IPaper {
 
 let paper: IPaper[] = [
   {
-    type: 'calendar', // 'DatePicker',
+    type: 'DatePicker', //'calendar', //
     mode: 'datetime',
     title: '记录时间',
-    data: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    data: dayjs().format('YYYY/MM/DD HH:mm:ss'),
   },
   {
     type: 'textarea',
@@ -24,7 +24,7 @@ let paper: IPaper[] = [
     rows: 1,
   },
   {
-    title: '复工上岗期间身体是否正常',
+    title: '身体是否正常',
     data: ` 是
     否`,
   },

@@ -73,7 +73,7 @@ let paper: IPaper[] = [
     data: chinaloc,
     length: 3,
   },
-  { type: 'calendar', title: '复工上岗时间', data: dayjs().format('YYYY-MM-DD') },
+  { type: 'calendar', title: '复工上岗时间', data: dayjs().format('YYYY/MM/DD') }, // DatePicker
   {
     title: '现居住地址（具体到小区、楼幢、单元、门牌号）',
     type: 'textarea',

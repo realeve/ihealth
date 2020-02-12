@@ -125,7 +125,7 @@ export default function FormComponent({ data, onChange, state, showErr }: IProps
               onConfirm={startTime => {
                 let nextState: (string | string[])[] = R.clone(state);
                 nextState[key] = dayjs(startTime).format(
-                  isDateTime ? 'YYYY-MM-DD HH:mm' : 'YYYY-MM-DD',
+                  isDateTime ? 'YYYY/MM/DD HH:mm' : 'YYYY/MM/DD',
                 );
                 onChange(nextState);
                 setShow(false);
@@ -135,14 +135,14 @@ export default function FormComponent({ data, onChange, state, showErr }: IProps
                 new Date(
                   dayjs()
                     .add(1 - dayjs().format('DD'), 'day')
-                    .format('YYYY-MM-DD'),
+                    .format('YYYY/MM/DD'),
                 )
               }
               maxDate={
                 new Date(
                   dayjs()
                     .add(2, 'month')
-                    .format('YYYY-MM-DD'),
+                    .format('YYYY/MM/DD'),
                 )
               }
             />
@@ -156,7 +156,7 @@ export default function FormComponent({ data, onChange, state, showErr }: IProps
               new Date(
                 dayjs()
                   .add(30, 'day')
-                  .format('YYYY-MM-DD'),
+                  .format('YYYY/MM/DD'),
               )
             }
             mode={props.mode || 'date'}
@@ -167,7 +167,7 @@ export default function FormComponent({ data, onChange, state, showErr }: IProps
               console.log(e);
               let nextState: (string | string[])[] = R.clone(state);
               nextState[key] = dayjs(e).format(
-                props.mode === 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm',
+                props.mode === 'date' ? 'YYYY/MM/DD' : 'YYYY/MM/DD HH:mm',
               );
               onChange(nextState);
             }}

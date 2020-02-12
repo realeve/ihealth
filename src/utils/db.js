@@ -12,7 +12,11 @@ let getCompany = () => {
 const getCommonInfo = ({ userInfo, basicInfo }) => {
   // let keys = `deptname,username,sex,id_card,hometown,work_date,address,mobile,leave_wenjiang,leave_time,connect_hubei`;
   let keys = `deptname,workname,username,sex,id_card,hometown,work_date,address,mobile,leave_wenjiang,leave_time,connect_hubei`;
-  let info = { userid: userInfo.openid, rec_time: lib.now(), company_id: getCompany() };
+  let info = {
+    userid: userInfo.openid || user.getUid().user,
+    rec_time: lib.now(),
+    company_id: getCompany(),
+  };
   keys.split(',').map((key, idx) => {
     info[key] = basicInfo[idx];
   });
@@ -21,7 +25,7 @@ const getCommonInfo = ({ userInfo, basicInfo }) => {
 
 const getPayInfo = ({ userInfo, pay }) => {
   let keys = `rec_date,temprature,health_info,remark`;
-  let info = { userid: userInfo.openid, rec_time: lib.now() };
+  let info = { userid: userInfo.openid || user.getUid().user, rec_time: lib.now() };
   keys.split(',').map((key, idx) => {
     info[key] = pay[idx];
   });
@@ -37,6 +41,7 @@ const getPayInfo = ({ userInfo, pay }) => {
   */
 export const addBasicInfo = params => {
   let values = [getCommonInfo(params)];
+  console.log('basicInfo', values);
 
   return DEV
     ? mock(_commonData)
@@ -47,10 +52,15 @@ export const addBasicInfo = params => {
           id: 259,
           nonce: 'dcc336d556',
         },
-      }).then(({ data: [{ affected_rows }] }) => {
-        user.setPaperStatus();
-        return affected_rows;
-      });
+      })
+        .then(({ data: [{ affected_rows }] }) => {
+          user.setPaperStatus();
+          return affected_rows;
+        })
+        .catch(e => {
+          console.log(e);
+          return false;
+        });
 };
 
 /**
@@ -62,6 +72,7 @@ export const addBasicInfo = params => {
  */
 export const addPayInfo = params => {
   let values = [getPayInfo(params)];
+  console.log('payInfo', values);
 
   return DEV
     ? mock(_commonData)
@@ -78,6 +89,7 @@ export const addPayInfo = params => {
           return id;
         })
         .catch(e => {
+          console.log(e);
           return 0;
         });
 };

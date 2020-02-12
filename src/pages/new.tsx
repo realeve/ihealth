@@ -27,7 +27,7 @@ export interface ILog {
 
 let getInitState = (pay: string[]) => {
   if (R.isNil(pay[0])) {
-    pay[0] = dayjs().format('YYYY-MM-DD HH:mm:ss');
+    pay[0] = dayjs().format('YYYY/MM/DD HH:mm:ss');
   }
   return pay;
 };
@@ -36,6 +36,7 @@ function NewPage({ pay, user: initLog, dispatch }: any) {
   const [state, setState]: [TAnswerList, any] = useState(getInitState(pay));
 
   useEffect(() => {
+    setPaper(paperData);
     // 存储答卷
     user.savePaper(state, 'pay');
     dispatch({ type: 'common/setStore', payload: { pay: state } });
@@ -46,9 +47,7 @@ function NewPage({ pay, user: initLog, dispatch }: any) {
 
   const [paper, setPaper] = useState(paperData);
 
-  useEffect(() => {
-    setPaper(paperData);
-  }, [state]);
+  console.log('userInfo:', initLog);
 
   const onSubmmit = async () => {
     if (loading) {

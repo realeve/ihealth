@@ -28,6 +28,7 @@
     "react-sticky": "^6.0.3",
     "rebound": "^0.1.0",
     "uuid": "^3.3.2",
+    "vconsole": "^3.3.4",
     "weixin-js-sdk": "^1.4.0-test"
   },
   "devDependencies": {

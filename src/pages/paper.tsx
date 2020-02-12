@@ -48,6 +48,8 @@ function PaperPage({ basic, hasSubmitted, user: initLog, dispatch, ...rest }: an
   const [loading, setLoading] = useState(false);
   const [showErr, setShowErr] = useState(basic.length === 0 ? {} : { msg: '' });
 
+  console.log('basic console:', basic);
+
   const onSubmmit = async () => {
     if (loading) {
       // 不重复提交
