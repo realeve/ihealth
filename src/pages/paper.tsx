@@ -26,23 +26,24 @@ export interface ILog {
 }
 
 function PaperPage({ basic, hasSubmitted, user: initLog, dispatch, ...rest }: any) {
-  const [state, setState]: [TAnswerList, any] = useState(basic);
+  // const [state, setState]: [TAnswerList, any] = useState(basic);
 
-  const [basicInited, setBasicInited] = useState(false);
+  // const [basicInited, setBasicInited] = useState(false);
 
-  useEffect(() => {
-    if (basicInited || basic.lendth === 0) {
-      return;
-    }
-    setBasicInited(true);
-    setState(basic);
-  }, [basic]);
+  // useEffect(() => {
+  // if (basicInited || basic.lendth === 0) {
+  //   return;
+  // }
+  // console.log(basic, state);
+  // setBasicInited(true);
+  // setState(basic);
+  // }, [basic]);
 
-  useEffect(() => {
-    // 存储答卷
-    user.savePaper(state, 'basic');
-    dispatch({ type: 'common/setStore', payload: { basic: state } });
-  }, [state]);
+  // useEffect(() => {
+  // 存储答卷
+  // user.savePaper(state, 'basic');
+  // dispatch({ type: 'common/setStore', payload: { basic: state } });
+  // }, [state]);
 
   const [loading, setLoading] = useState(false);
   const [showErr, setShowErr] = useState(basic.length === 0 ? {} : { msg: '' });
@@ -54,7 +55,7 @@ function PaperPage({ basic, hasSubmitted, user: initLog, dispatch, ...rest }: an
     }
     setLoading(true);
 
-    let basicInfo: TAnswerList = R.clone(state);
+    let basicInfo: TAnswerList = R.clone(basic);
 
     if (!basicInfo[5]) {
       Toast.fail('基础信息填写不完整', 2);
@@ -124,7 +125,14 @@ function PaperPage({ basic, hasSubmitted, user: initLog, dispatch, ...rest }: an
           {hasSubmitted > 0 && <span>(您已填写)</span>}
         </div> */}
 
-        <FormComponent data={paperData} onChange={setState} state={state} showErr={showErr} />
+        <FormComponent
+          data={paperData}
+          onChange={state => {
+            dispatch({ type: 'common/setStore', payload: { basic: state } });
+          }}
+          state={basic}
+          showErr={showErr}
+        />
       </div>
       {/* {user._dev && !R.isNil(showErr.company_id) && JSON.stringify(showErr).replace(/",/g, '",\n')} */}
       <WingBlank>

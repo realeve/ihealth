@@ -156,15 +156,17 @@ export default {
           // 载入历史数据
           let basic = lib.loadPaper('basic');
           let hasSubmitted = lib.getBasicStatus();
-          if (basic.length) {
-            dispatch({
-              type: 'setStore',
-              payload: { basic, hasSubmitted },
-            });
-            console.log('loading from cache');
-          } else {
-            dispatch({ type: 'getBasicInfo' });
-          }
+          dispatch({ type: 'getBasicInfo' });
+
+          // if (basic.length) {
+          //   dispatch({
+          //     type: 'setStore',
+          //     payload: { basic, hasSubmitted },
+          //   });
+          //   console.log('loading from cache');
+          // } else {
+          //   dispatch({ type: 'getBasicInfo' });
+          // }
         }
       });
     },

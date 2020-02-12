@@ -25,7 +25,7 @@ const now = new Date();
 
 export default function FormComponent({ data, onChange, state, showErr }: IPropsForm) {
   const [show, setShow] = useState(false);
-  console.log('show:', show);
+
   return data.map(({ title, data, type = 'radio', subTitle, ...props }: IPaper, key: number) => {
     let idxTitle = `${key + 1}.${title}`;
 
