@@ -41,7 +41,7 @@ export default {
       user = {
         openid: lib.getUid().user,
       };
-      console.log('用户信息载入完毕', user);
+      // console.log('用户信息载入完毕', user);
       if (!user) {
         return;
       }
@@ -102,7 +102,7 @@ export default {
         connect_hubei,
       ];
 
-      console.log('loading from db', basic);
+      // console.log('loading from db', basic);
 
       yield put({
         type: 'setStore',
@@ -159,14 +159,15 @@ export default {
         // }
 
         if (['/paper'].includes(pathname) || ['/log'].includes(pathname)) {
+          dispatch({ type: 'getBasicInfo' });
+
           dispatch({
             type: 'getPayLog',
           });
 
           // 载入历史数据
-          let basic = lib.loadPaper('basic');
-          let hasSubmitted = lib.getBasicStatus();
-          dispatch({ type: 'getBasicInfo' });
+          // let basic = lib.loadPaper('basic');
+          // let hasSubmitted = lib.getBasicStatus();
 
           // if (basic.length) {
           //   dispatch({

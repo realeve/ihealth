@@ -141,3 +141,14 @@ export const getCbpc2020NcovWorkStatic = () =>
       company_id: getCompany(),
     },
   });
+/**
+ *   @database: { 微信开发 }
+ *   @desc:     { 部门人员详情 }
+ */
+export const getCbpc2020NcovWorkTemprature = deptname =>
+  axios({
+    url: '/265/d6ae168866.json',
+    params: {
+      deptname,
+    },
+  });

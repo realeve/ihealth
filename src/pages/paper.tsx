@@ -48,7 +48,7 @@ function PaperPage({ basic, hasSubmitted, user: initLog, dispatch, ...rest }: an
   const [loading, setLoading] = useState(false);
   const [showErr, setShowErr] = useState(basic.length === 0 ? {} : { msg: '' });
 
-  console.log('basic console:', basic);
+  // console.log('basic console:', basic);
 
   const onSubmmit = async () => {
     if (loading) {
@@ -129,6 +129,7 @@ function PaperPage({ basic, hasSubmitted, user: initLog, dispatch, ...rest }: an
 
         <FormComponent
           data={paperData}
+          hasSubmitted={hasSubmitted}
           onChange={state => {
             dispatch({ type: 'common/setStore', payload: { basic: state } });
           }}
@@ -137,15 +138,17 @@ function PaperPage({ basic, hasSubmitted, user: initLog, dispatch, ...rest }: an
         />
       </div>
       {/* {user._dev && !R.isNil(showErr.company_id) && JSON.stringify(showErr).replace(/",/g, '",\n')} */}
-      <WingBlank>
-        <Button disabled={hasSubmitted} type="primary" onClick={onSubmmit} loading={loading}>
-          提交
-        </Button>
-      </WingBlank>
+      {!hasSubmitted && (
+        <WingBlank>
+          <Button disabled={hasSubmitted} type="primary" onClick={onSubmmit} loading={loading}>
+            提交
+          </Button>
+        </WingBlank>
+      )}
     </div>
   );
 }
 
-export default connect(({ common }: any) => {
-  return { ...common };
+export default connect(({ common: { basic, hasSubmitted, user } }: any) => {
+  return { basic, hasSubmitted, user };
 })(PaperPage);

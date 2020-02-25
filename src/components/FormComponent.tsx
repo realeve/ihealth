@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextareaItem, List, DatePicker } from 'antd-mobile';
+import { TextareaItem, List, DatePicker, InputItem } from 'antd-mobile';
 import RadioComponent from '@/components/RadioComponent';
 import CheckboxComponent from '@/components/CheckboxComponent';
 import PickerComponent from '@/components/PickerComponent';
@@ -23,7 +23,13 @@ export interface IPropsForm {
 
 const now = new Date();
 
-export default function FormComponent({ data, onChange, state, showErr }: IPropsForm) {
+export default function FormComponent({
+  data,
+  onChange,
+  hasSubmitted,
+  state,
+  showErr,
+}: IPropsForm) {
   const [show, setShow] = useState(false);
 
   return data.map(({ title, data, type = 'radio', subTitle, ...props }: IPaper, key: number) => {
@@ -87,6 +93,20 @@ export default function FormComponent({ data, onChange, state, showErr }: IProps
           </List>
         );
       case 'picker':
+        if (hasSubmitted) {
+          let val = prop.state[key].split(' ');
+          let data = prop.data;
+          let prov = data[val[0]];
+          let provName = prov.name;
+          let city = prov.cities[val[1]];
+          let cityName = city.name;
+          let district = city.districts[val[2]];
+          return (
+            <List renderHeader={prop.title} key={key}>
+              <InputItem disabled={true} value={`${provName} ${cityName} ${district}`} />
+            </List>
+          );
+        }
         return (
           <PickerComponent
             {...prop}
@@ -164,7 +184,7 @@ export default function FormComponent({ data, onChange, state, showErr }: IProps
             value={new Date(state[key])}
             key={key}
             onChange={(e: Date) => {
-              console.log(e);
+              // console.log(e);
               let nextState: (string | string[])[] = R.clone(state);
               nextState[key] = dayjs(e).format(
                 props.mode === 'date' ? 'YYYY/MM/DD' : 'YYYY/MM/DD HH:mm',

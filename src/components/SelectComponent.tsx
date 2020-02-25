@@ -20,7 +20,7 @@ const SelectComponent = function({
     let nextState = R.clone(state);
     nextState[key] = String(value);
     onChange(nextState);
-    console.log(value);
+    // console.log(value);
   };
 
   const answerStr = lib.parseAnswer(state, key, title, showErr);

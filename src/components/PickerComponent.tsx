@@ -56,13 +56,14 @@ const PickerComponent = function({
     setInitData(nextPicker);
   }, []);
 
+  // console.log(typeof pickerValue === 'string' ? pickerValue.split(' ') : pickerValue, pickerValue);
   return (
     <List renderHeader={title} {...props}>
       <Picker
         title="选择地区"
         extra={curProv}
         data={initData}
-        value={pickerValue}
+        value={typeof pickerValue === 'string' ? pickerValue.split(' ') : pickerValue}
         onOk={v => {
           // 不用转换
           // let provName = lib.getProvName(v, data);

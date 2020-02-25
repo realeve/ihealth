@@ -47,7 +47,7 @@ function NewPage({ pay, user: initLog, dispatch }: any) {
 
   const [paper, setPaper] = useState(paperData);
 
-  console.log('userInfo:', initLog);
+  // console.log('userInfo:', initLog);
 
   const onSubmmit = async () => {
     if (loading) {

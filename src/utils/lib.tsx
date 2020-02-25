@@ -98,6 +98,7 @@ export const handleMultipleChange = (
 
 export const now = () => dayjs().format('YYYY/MM/DD HH:mm:ss');
 export const ymd = () => dayjs().format('YYYYMMDD');
+export const today = () => dayjs().format('M月DD日');
 
 export const getParams = (state: TAnswerList, user: ILog, paper: IPaper[]) => {
   let vote_detail = R.clone(state);
@@ -265,5 +266,5 @@ export const transformProvName: (e: string[]) => string[] = res => {
   let dist = districtId && districtId[0];
 
   // console.log([dist.slice(0, 2) + '0000', dist.slice(0, 4) + '00', dist]);
-  return [dist.slice(0, 2) + '0000', dist.slice(0, 4) + '00', dist];
+  return [dist.slice(0, 2) + '0000', dist.slice(0, 4) + '00', dist].join(' ');
 };

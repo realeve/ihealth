@@ -6,7 +6,7 @@ import { Tabs, TabBar } from 'antd-mobile';
 // import router from 'umi/router';
 
 import Paper from '@/pages/paper';
-import Log from '@/pages/log';
+import Log from '@/pages/Log';
 import Statistic from '@/pages/statistic';
 
 import Basic from './img/01_basic.svg';
@@ -20,8 +20,8 @@ import StatA from './img/03_statistics_active.svg';
 //   return <Tabs.DefaultTabBar {...props} />;
 // }
 
-import VConsole from 'vconsole';
-var vConsole = new VConsole();
+// import VConsole from 'vconsole';
+// var vConsole = new VConsole();
 
 const tabs = [
   {
