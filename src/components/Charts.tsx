@@ -111,8 +111,8 @@ const getBar = (data, text) => {
       type: 'value',
       // show: true,
       show: false,
-      min: 36,
-      // max: 37.5,
+      min: 35,
+      max: 37.4,
       splitLine: {
         show: false,
       },
