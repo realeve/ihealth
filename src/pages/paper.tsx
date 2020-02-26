@@ -73,27 +73,32 @@ function PaperPage({ basic, hasSubmitted, user: initLog, dispatch, ...rest }: an
 
     for (let i = 0; i < paperData.length; i++) {
       if (!params.basicInfo[i] || params.basicInfo[i].length === 0) {
-        Toast.fail('问卷填写不完整', 2);
-        setLoading(false);
-        return;
+        // 身份证信息不校验
+        if (i !== 4 && i !== 8) {
+          Toast.fail('问卷填写不完整', 2);
+          setLoading(false);
+          return;
+        } else {
+          params.basicInfo[i] = '';
+        }
       }
     }
 
-    if (
-      !/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(
-        params.basicInfo[8],
-      )
-    ) {
-      Toast.fail('联系电话无效', 2);
-      setLoading(false);
-      return;
-    }
+    // if (
+    //   !/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(
+    //     params.basicInfo[8],
+    //   )
+    // ) {
+    //   Toast.fail('联系电话无效', 2);
+    //   setLoading(false);
+    //   return;
+    // }
 
-    if (!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test(params.basicInfo[4])) {
-      Toast.fail('身份证信息无效', 2);
-      setLoading(false);
-      return;
-    }
+    // if (!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test(params.basicInfo[4])) {
+    //   Toast.fail('身份证信息无效', 2);
+    //   setLoading(false);
+    //   return;
+    // }
 
     db.addBasicInfo(params)
       .then(id => {

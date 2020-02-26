@@ -66,6 +66,7 @@ let paper: IPaper[] = [
     title: '身份证号',
     type: 'textarea',
     rows: 1,
+    hide: true,
   },
   {
     title: '籍贯',
@@ -83,6 +84,7 @@ let paper: IPaper[] = [
     title: '手机号',
     type: 'textarea',
     rows: 1,
+    hide: true,
   },
   {
     title: '春节期间是否离开温江',

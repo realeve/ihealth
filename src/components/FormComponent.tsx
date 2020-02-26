@@ -31,9 +31,9 @@ export default function FormComponent({
   showErr,
 }: IPropsForm) {
   const [show, setShow] = useState(false);
-
+  let titleIdx = 1;
   return data.map(({ title, data, type = 'radio', subTitle, ...props }: IPaper, key: number) => {
-    let idxTitle = `${key + 1}.${title}`;
+    let idxTitle = `${titleIdx}.${title}`;
 
     let prop = {
       onChange,
@@ -47,6 +47,11 @@ export default function FormComponent({
       maxLength: props.maxLength,
       showErr: !R.equals(showErr, {}),
     };
+
+    if (props.hide) {
+      return null;
+    }
+    titleIdx++;
 
     switch (type) {
       case 'radio':
