@@ -20,8 +20,8 @@ import StatA from './img/03_statistics_active.svg';
 //   return <Tabs.DefaultTabBar {...props} />;
 // }
 
-// import VConsole from 'vconsole';
-// var vConsole = new VConsole();
+import VConsole from 'vconsole';
+var vConsole = new VConsole();
 
 const tabs = [
   {

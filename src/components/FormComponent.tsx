@@ -102,10 +102,15 @@ export default function FormComponent({
           let val = prop.state[key].split(' ');
           let data = prop.data;
           let prov = data[val[0]];
-          let provName = prov.name;
-          let city = prov.cities[val[1]];
-          let cityName = city.name;
-          let district = city.districts[val[2]];
+          let provName, cityName, district;
+          if (prov) {
+            provName = prov.name;
+            let city = prov.cities[val[1]];
+            if (city) {
+              cityName = city.name;
+              district = city.districts[val[2]];
+            }
+          }
           return (
             <List renderHeader={prop.title} key={key}>
               <InputItem disabled={true} value={`${provName} ${cityName} ${district}`} />
