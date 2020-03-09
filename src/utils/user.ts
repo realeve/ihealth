@@ -6,7 +6,7 @@ import router from 'umi/router';
 // 活动开始前，参与测试人员数据加前缀
 export const _dev = false;
 
-const prefix = (_dev ? 'dev' : 'dist') + '2020_ihealth_';
+export const prefix = (_dev ? 'dev' : 'dist') + '2020_ihealth_';
 let key: {
   [key: string]: string;
 } = {
