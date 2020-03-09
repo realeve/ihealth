@@ -39,14 +39,14 @@ export default {
       user = yield call(weixin.getWxUserInfo);
 
       if (user) {
-        console.log('用户微信信息载入完毕', user);
+        // console.log('用户微信信息载入完毕', user);
         window.localStorage.setItem(lib.prefix + "user", user.openid);
       }
 
       user = {
         openid: lib.getUid().user,
       };
-      console.log('用户信息载入完毕', user);
+      // console.log('用户信息载入完毕', user);
       if (!user) {
         return;
       }

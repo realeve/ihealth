@@ -19,7 +19,6 @@ let key: {
 
 export const getUid = () => {
   let user: string | null = window.localStorage.getItem(key.user);
-  console.log(user);
   if (R.isNil(user)) {
     // uuidv5 中传入的字符值为随机值，此处无意义
     let uuid: string = uuidv4(key.user);

@@ -237,12 +237,14 @@ export const transformProvName: (e: string[]) => string[] = res => {
   }
 
   let [prov, city, districtName] = res;
+  let [provNum, cityNum, distNum] = [0, 0, 0];
   let locales = Object.keys(chinaloc);
   let provDetail = {};
 
   for (let i = 0; i < locales.length; i++) {
     provDetail = chinaloc[locales[i]];
     if (provDetail.name === prov) {
+      provNum = locales[i];
       break;
     }
   }
@@ -253,12 +255,14 @@ export const transformProvName: (e: string[]) => string[] = res => {
   for (let i = 0; i < cities.length; i++) {
     districtDetail = provDetail.cities[cities[i]];
     if (districtDetail.name === city) {
+      cityNum = cities[i];
       break;
     }
   }
 
   let districtId = R.find(item => {
     if (item[1] === districtName) {
+      distNum = item[0];
       return item[0];
     }
   })(Object.entries(districtDetail.districts));
@@ -266,5 +270,5 @@ export const transformProvName: (e: string[]) => string[] = res => {
   let dist = districtId && districtId[0];
 
   // console.log([dist.slice(0, 2) + '0000', dist.slice(0, 4) + '00', dist]);
-  return [dist.slice(0, 2) + '0000', dist.slice(0, 4) + '00', dist].join(' ');
+  return [provNum, cityNum, distNum].join(' ');
 };
