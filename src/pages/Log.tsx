@@ -40,7 +40,8 @@ function LogPage({
             value: item.temprature,
             remark: item.remark,
           }))
-          .sort((a, b) => a.id - b.id)}
+          // .sort((a, b) => a.id - b.id)}
+          .sort((a, b) => new Date(a.name).getTime() - new Date(b.name).getTime())}
         type="line"
         title="个人近期体温记录"
         style={{
